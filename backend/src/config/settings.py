@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,17 +32,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 LOCAL_APPS = [
-    'apps.users.apps.UsersConfig',
-    'apps.recipes.apps.RecipesConfig',
-    'apps.tags.apps.TagsConfig',
-    'apps.favorite.apps.FavoriteConfig',
-    'apps.ingredients.apps.IngredientsConfig',
-    'apps.subscriptions.apps.SubscriptionsConfig',
-    'apps.shopping_list.apps.ShoppingListConfig',
+    'users.apps.UsersConfig',
+    'recipes.apps.RecipesConfig',
+    'tags.apps.TagsConfig',
+    'favorite.apps.FavoriteConfig',
+    'ingredients.apps.IngredientsConfig',
+    'subscriptions.apps.SubscriptionsConfig',
+    'shopping_list.apps.ShoppingListConfig',
 ]
 
 THIRD_PARTY_APPS = [
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
 ]
 
 
@@ -97,6 +100,8 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'users.User'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -116,13 +121,44 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+}
+
+REST_FRAMEWORK = {
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
+
+}
+
+DJOSER = {
+    "LOGIN_FIELD": "email",
+    "SERIALIZERS": {
+        # # "user_create": "api.serializers.CustomUserCreateSerializer",
+        # "user": "api.serializers.CustomUserSerializer",
+        "current_user": "users.api.v1.serializers.UserSerializer",
+    },
+}
+
+# LOGIN_REDIRECT_URL =
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -134,7 +170,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -8,9 +8,10 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 django = "3.2.3"
-djangorestframework = "3.12.4"
 djoser = "2.1.0"
 pillow = "9.0.0"
+djangorestframework = "3.12.4"
+drf-extra-fields = "^3.7.0"
 
 
 [build-system]

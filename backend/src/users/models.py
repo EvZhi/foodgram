@@ -1,5 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django.contrib.auth.validators import UnicodeUsernameValidator
+from users.validators import validate_username_not_me
 
 
 class User(AbstractUser):
@@ -20,6 +22,7 @@ class User(AbstractUser):
         error_messages={
             'unique': 'Пользователь с таким именем уже существует.'
         },
+        validators=[UnicodeUsernameValidator(), validate_username_not_me]
     )
 
     first_name = models.CharField(
@@ -48,7 +51,3 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
-    
-
-    # class Meta:
-

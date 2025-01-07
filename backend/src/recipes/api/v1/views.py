@@ -27,9 +27,7 @@ class RecipeViewSet(ModelViewSet):
     pagination_class = CustomPagination
 
     def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy',
-                           'favorite', 'download_shopping_cart',
-                           'shopping_cart']:
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
             return [IsAuthenticated(), IsAuthorOrReadOnly()]
         return [AllowAny()]
 
@@ -43,7 +41,7 @@ class RecipeViewSet(ModelViewSet):
         if self.request.user.is_authenticated:
             qs = qs.select_related('author').prefetch_related(
                 'tags', 'ingredients',
-                'in_shopping_cart', 'favorites', 'recipeingredient_set',
+                'shopping_list', 'favorites', 'recipeingredient_set',
 
             )
             return qs
@@ -53,6 +51,8 @@ class RecipeViewSet(ModelViewSet):
         serializer.save(author=self.request.user)
 
     def handle_add_remove(self, request, pk, model):
+        if not request.user.is_authenticated:
+            return Response({"detail": "Authentication required."}, status=status.HTTP_401_UNAUTHORIZED)
         user = request.user
         recipe = self.get_object()
 
@@ -70,7 +70,7 @@ class RecipeViewSet(ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=True, methods=['post', 'delete'])
+    @action(detail=True, methods=['post', 'delete'],permission_classes=[IsAuthenticated])
     def favorite(self, request, pk, *args):
         return self.handle_add_remove(request, pk, Favorite)
 
@@ -86,6 +86,8 @@ class RecipeViewSet(ModelViewSet):
         detail=True,
         methods=["POST", "DELETE"],
         url_path="shopping_cart",
+        permission_classes=[IsAuthenticated]
+
     )
     def shopping_cart(self, request, pk=None):
         return self.handle_add_remove(request, pk, ShoppingCart)
@@ -95,6 +97,7 @@ class RecipeViewSet(ModelViewSet):
         methods=["GET"],
         renderer_classes=[CSVShopingCartDataRenderer],
         url_path="download_shopping_cart",
+        permission_classes=[IsAuthenticated]
     )
     def download_shopping_cart(self, request):
         user = request.user
@@ -107,7 +110,7 @@ class RecipeViewSet(ModelViewSet):
             .annotate(total_amount=Sum('amount'))
             .order_by('ingredient__name')
         )
-        file_name = f'Shoping_list.{request.accepted_renderer.format}'
+        file_name = f'Shopping_list.{request.accepted_renderer.format}'
         serializer = RecipeDownloadShoppingCartSerializer(qs, many=True)
         return Response(
             serializer.data,

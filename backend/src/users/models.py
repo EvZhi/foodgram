@@ -11,7 +11,7 @@ class User(AbstractUser):
         max_length=254,
         unique=True,
         error_messages={
-            'unique': 'Данный адрес уже используеться.'
+            'unique': 'Данный адрес уже используется.'
         },
     )
 
@@ -33,13 +33,13 @@ class User(AbstractUser):
     last_name = models.CharField(
         verbose_name='Фамилия',
         max_length=150
-
     )
 
     avatar = models.ImageField(
         verbose_name='Аватар',
         upload_to='users/',
-        blank=True
+        blank=True,
+        default='users/default_avatar.png'
     )
 
     USERNAME_FIELD = 'email'

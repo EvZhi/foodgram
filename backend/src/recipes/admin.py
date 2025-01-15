@@ -3,7 +3,6 @@ from django.db import models
 from django.forms import CheckboxSelectMultiple
 
 from favorites.models import Favorite
-
 from .models import Recipe, RecipeIngredient
 
 EMPTY_MSG = '-пусто-'
@@ -11,7 +10,6 @@ EMPTY_MSG = '-пусто-'
 
 class RecipeIngredientInline(admin.StackedInline):
     model = RecipeIngredient
-    # autocomplete_fields = ('ingredient',)
     extra = 1
 
 
@@ -65,9 +63,3 @@ class RecipeAdmin(admin.ModelAdmin):
         return ", ".join(
             obj.tags.values_list('name', flat=True).order_by('name')
         )
-
-
-# @admin.register(Recipe)
-# class RecipeAdmin(admin.ModelAdmin):
-#     inlines = (RecipeIngredientInline,)
-#     filter_horizontal = ('tags',)

@@ -43,10 +43,10 @@ class UserViewSet(UVS):
     )
     def me_avatar(self, request, *args, **kwargs):
         self.get_object = self.get_instance
+        instance = self.request.user
         if request.method == 'PUT':
             return self.partial_update(request, *args, **kwargs)
         elif request.method == 'DELETE':
-            instance = self.get_object()
             if instance.avatar:
                 instance.avatar.delete(save=True)
                 return Response(

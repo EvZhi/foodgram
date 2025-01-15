@@ -1,7 +1,9 @@
 import csv
-from django.core.management.base import BaseCommand
+
 from django.conf import settings
+from django.core.management.base import BaseCommand
 from django.db import transaction
+
 from tags.models import Tag
 
 
@@ -25,13 +27,13 @@ class Command(BaseCommand):
 
         if tags_to_create:
             with transaction.atomic():
-                Tag.objects.bulk_create(tags_to_create)     
+                Tag.objects.bulk_create(tags_to_create)
         self.stdout.write(f"Добавлено {added_count} новых тегов.")
 
     def handle(self, *args, **kwargs):
         csv_file_path = settings.BASE_DIR.parent / 'data' / 'tags.csv'
         with open(csv_file_path, 'r', encoding="utf-8") as file:
             csv_reader = csv.reader(file)
-            next(csv_reader, None)  # Пропускаем заголовок (если есть)
+            next(csv_reader, None)
             self.create_tags(csv_reader)
         self.stdout.write(self.style.SUCCESS('Все теги загружены!'))

@@ -1,28 +1,26 @@
-from django.db import transaction
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
+from favorites.models import Favorite
+from ingredients.models import Ingredient
 from recipes.models import Recipe, RecipeIngredient
 from services import recipe_ingredient_bulk_create
+from shopping_cart.models import ShoppingCart
 from tags.api.v1.serializers import TagSerializer
 from tags.models import Tag
-from ingredients.models import Ingredient
 from users.api.v1.serializers import CustomUserSerializer
-from shopping_cart.models import ShoppingCart
-from subscriptions.models import Subscription
-from favorites.models import Favorite
 
 
 class RecipieIngredientSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(source="ingredient.id")
-    name = serializers.ReadOnlyField(source="ingredient.name")
+    id = serializers.IntegerField(source='ingredient.id')
+    name = serializers.ReadOnlyField(source='ingredient.name')
     measurement_unit = serializers.ReadOnlyField(
-        source="ingredient.measurement_unit"
+        source='ingredient.measurement_unit'
     )
 
     class Meta:
         model = RecipeIngredient
-        fields = ('id', "name", "measurement_unit", 'amount')
+        fields = ('id', 'name', "measurement_unit", 'amount')
 
 
 class RecipeDownloadShoppingCartSerializer(serializers.Serializer):
@@ -76,12 +74,12 @@ class RecipieSerializer(serializers.ModelSerializer):
 
     def validate_tags(self, value):
         if not value:
-            raise serializers.ValidationError("Нужно добавить тег.")
+            raise serializers.ValidationError('Нужно добавить тег.')
         tags = set()
         for tag in value:
             if tag in tags:
                 raise serializers.ValidationError(
-                    "Тэги не должны повторяться."
+                    'Тэги не должны повторяться.'
                 )
             tags.add(tag)
         return value
@@ -127,7 +125,7 @@ class RecipieSerializer(serializers.ModelSerializer):
         return False
 
     def get_is_in_shopping_cart(self, obj):
-        request = self.context.get("request")
+        request = self.context.get('request')
         if request and request.user.is_authenticated:
             return ShoppingCart.objects.filter(user=request.user,
                                                recipe=obj).exists()

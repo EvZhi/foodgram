@@ -2,7 +2,9 @@ from django.core.exceptions import ValidationError
 
 
 def validate_username_not_me(value):
-    if value == 'me':
+    forbidden_usernames = ('me',)
+    if value.lower() in [name.lower() for name in forbidden_usernames]:
         raise ValidationError(
-            f"Использовать имя '{value}' " "в качестве username запрещено."
+            ("Имя '%(value)s' запрещено для использования."),
+            params={'value': value},
         )

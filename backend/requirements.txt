@@ -1,7 +1,7 @@
 asgiref==3.8.1
-certifi==2024.8.30
+certifi==2024.12.14
 cffi==1.17.1
-charset-normalizer==3.4.0
+charset-normalizer==3.4.1
 coreapi==2.3.3
 coreschema==0.0.4
 cryptography==43.0.3
@@ -21,7 +21,7 @@ gunicorn==20.1.0
 idna==3.10
 isort==5.13.2
 itypes==1.2.0
-Jinja2==3.1.4
+Jinja2==3.1.5
 MarkupSafe==3.0.2
 mccabe==0.7.0
 oauthlib==3.2.2
@@ -37,10 +37,10 @@ pytz==2024.2
 requests==2.32.3
 requests-oauthlib==2.0.0
 shortuuid==1.0.13
-six==1.16.0
+six==1.17.0
 social-auth-app-django==4.0.0
 social-auth-core==4.5.4
-sqlparse==0.5.2
+sqlparse==0.5.3
 typing_extensions==4.12.2
 uritemplate==4.1.1
-urllib3==2.2.3
+urllib3==2.3.0

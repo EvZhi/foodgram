@@ -50,7 +50,11 @@ class RecipeFilter(django_filters.FilterSet):
     def filter_is_in_shopping_cart(self, queryset, name, value):
         if self.request.user.is_authenticated:
             if value == '1':
-                return queryset.filter(shopping_list__user=self.request.user).distinct()
+                return queryset.filter(
+                    shopping_list__user=self.request.user
+                ).distinct()
             else:
-                return queryset.exclude(shopping_list__user=self.request.user).distinct()
+                return queryset.exclude(
+                    shopping_list__user=self.request.user
+                ).distinct()
         return queryset

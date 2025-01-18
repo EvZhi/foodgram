@@ -3,6 +3,7 @@ from django.db import models
 from django.forms import CheckboxSelectMultiple
 
 from favorites.models import Favorite
+
 from .models import Recipe, RecipeIngredient
 
 EMPTY_MSG = '-пусто-'

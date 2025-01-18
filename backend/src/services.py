@@ -1,6 +1,7 @@
 import shortuuid
 
 from django.shortcuts import get_object_or_404, redirect
+
 from recipes.models import RecipeIngredient, ShortLink
 
 LENGTH_SHORT_LINK = 7

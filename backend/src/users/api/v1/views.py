@@ -1,5 +1,7 @@
-from django.contrib.auth import get_user_model
 from djoser.views import UserViewSet as UVS
+
+from django.contrib.auth import get_user_model
+
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -8,9 +10,12 @@ from rest_framework.response import Response
 from paginations import CustomPagination
 from subscriptions.models import Subscription
 
-from .serializers import (AvatarSetRetypeDeleteSerializer,
-                          CustomUserCreateSerializer, CustomUserSerializer,
-                          SubscriptionSerializer)
+from .serializers import (
+    AvatarSetRetypeDeleteSerializer,
+    CustomUserCreateSerializer,
+    CustomUserSerializer,
+    SubscriptionSerializer
+)
 
 User = get_user_model()
 

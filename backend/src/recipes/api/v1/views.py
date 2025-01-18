@@ -1,5 +1,7 @@
-from django.db.models import Sum
 from django_filters.rest_framework import DjangoFilterBackend
+
+from django.db.models import Sum
+
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -15,8 +17,11 @@ from renders import CSVShopingCartDataRenderer
 from services import get_or_create_short_link
 from shopping_cart.models import ShoppingCart
 
-from .serializers import (RecipeDownloadShoppingCartSerializer,
-                          RecipeMiniSerializer, RecipieSerializer)
+from .serializers import (
+    RecipeDownloadShoppingCartSerializer,
+    RecipeMiniSerializer,
+    RecipieSerializer
+)
 
 
 class RecipeViewSet(ModelViewSet):

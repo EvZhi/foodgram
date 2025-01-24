@@ -24,6 +24,11 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/auth/', include('djoser.urls.authtoken')),
     path("s/<str:short_url>/", redirection, name="redirect_short_link"),
+    path(
+        'redoc/',
+        TemplateView.as_view(template_name='redoc.html'),
+        name='redoc'
+    )
 ]
 
 if settings.DEBUG:
@@ -31,8 +36,3 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
     urlpatterns += (path('__debug__/', include(debug_toolbar.urls)),)
-    urlpatterns += (path(
-        'redoc/',
-        TemplateView.as_view(template_name='redoc.html'),
-        name='redoc'
-    ),)

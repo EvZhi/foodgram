@@ -128,3 +128,4 @@ jobs:
           message: |
             Деплой успешно выполнен!
             Ссылка на завершенный run: ${{ GITHUB.SERVER_URL }}/${{ GITHUB.REPOSITORY }}/actions/runs/${{ GITHUB.RUN_ID }}
+            https://food.hopto.org/recipes
